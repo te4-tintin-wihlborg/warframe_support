@@ -1,0 +1,9 @@
+.wrapper{
+    height: 100vh;
+    width: 100vw;
+    background-color: peachpuff;
+}
+.hello{
+    height: 100px;
+    width: 100px;
+}
