@@ -35,5 +35,5 @@ jobs:
       run:
         npx newman run https://api.getpostman.com/collections/$COLLECTION_UID?apikey=$POSTMAN_KEY
       env:
-        COLLECTION_UID_YABS: ${{secrets.COLLECTION_UID_YABS}}
+        COLLECTION_UID: ${{secrets.COLLECTION_UID}}
         POSTMAN_KEY: ${{secrets.POSTMAN_KEY}}
