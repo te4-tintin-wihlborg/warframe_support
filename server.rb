@@ -24,13 +24,12 @@ class Server < Sinatra::Base
 
         end
 
-       
 
         newinput.each { |relic| item_holder.append(gather_relic_info(relic)) }
         
 
        
-        response = "Hello"
+        response =  item_holder
 
         return response.to_json
 
