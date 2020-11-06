@@ -3,22 +3,33 @@ require 'open-uri'
 
 class Server < Sinatra::Base
 
+    
+
     get '/' do
         slim :main
     end
     
     post '/get_info' do
+        types = {"a" => 'Axi_', "m" => 'Meso_', "l" => 'Lith_', "n" => 'Neo_'}
         item_holder = []
-        item = []
         input = JSON.parse(request.body.read)
+        newinput = []
 
-        test = Nokogiri::HTML(open('https://warframe.fandom.com/wiki/Axi_A5').read)
-        test = test.css('.emodtable > tbody:nth-child(2)')
-        puts test
+        input.each do |inputval|
+            newinputitem = ""
+            newinputitem += types[inputval[0]]
+            newinputitem += inputval[1].upcase
+            newinputitem += inputval[2]
+            newinput << newinputitem
+
+        end
+
+       
+
+        newinput.each { |relic| item_holder.append(gather_relic_info(relic)) }
         
-        input.each { |relic| item_holder.append(gather_relic_info(relic)) }
-        
-        puts item_holder
+
+       
         response = "Hello"
 
         return response.to_json
@@ -26,8 +37,21 @@ class Server < Sinatra::Base
     end
 
     def gather_relic_info(relic)
+        
+        begin 
+            test = Nokogiri::HTML(open("https://warframe.fandom.com/wiki/#{relic}").read)
+        
+        rescue OpenURI::HTTPError => e
+            
+            return "this dosent work"
 
-        return "hello"
+        end
+        data = []
+        for i in 2..6 do
+            data << test.xpath("//tbody//tr[#{i}]//td[#{1}]//a[#{2}]").text
+        end
+
+        return data
 
     end
 
